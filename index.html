@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#28352b">
+  <title>너에게 보내는 작은 편지</title>
+  <style>
+    :root {
+      --cream: #fff8e9;
+      --gold: #e8d3a1;
+      --ink: #fffaf0;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: "Noto Serif KR", "Nanum Myeongjo", "Batang", serif;
+      background: #27372c url("dog-background.png") center 48% / cover fixed no-repeat;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(13,24,17,.25), rgba(13,24,17,.48) 42%, rgba(13,24,17,.72)),
+        radial-gradient(ellipse at 50% 38%, transparent 10%, rgba(8,18,12,.28) 100%);
+      z-index: -1;
+    }
+    .glow {
+      position: fixed;
+      inset: -30%;
+      pointer-events: none;
+      z-index: -1;
+      background: conic-gradient(from 210deg at 50% 50%,
+        transparent 0deg, rgba(255,239,192,.09) 18deg, transparent 38deg,
+        transparent 95deg, rgba(255,239,192,.06) 112deg, transparent 132deg,
+        transparent 360deg);
+      filter: blur(16px);
+      animation: rays 22s linear infinite;
+    }
+    @keyframes rays { to { transform: rotate(360deg); } }
+    .card {
+      position: relative;
+      width: min(680px, 100%);
+      padding: clamp(30px, 6vw, 62px) clamp(24px, 7vw, 72px) 34px;
+      border: 1px solid rgba(255,239,204,.48);
+      border-radius: 8px;
+      background: linear-gradient(145deg, rgba(31,43,33,.72), rgba(26,34,29,.58));
+      box-shadow: 0 24px 80px rgba(0,0,0,.32), inset 0 0 35px rgba(255,255,255,.035);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+      text-align: center;
+      overflow: hidden;
+      animation: cardIn 1.2s ease both;
+    }
+    .card::before, .card::after {
+      content: "✧";
+      position: absolute;
+      color: rgba(238,216,166,.7);
+      font-size: 19px;
+    }
+    .card::before { top: 17px; left: 20px; }
+    .card::after { right: 20px; bottom: 17px; }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--gold);
+      font: 11px/1.5 sans-serif;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(25px, 5vw, 37px);
+      font-weight: 500;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-shadow: 0 2px 16px rgba(0,0,0,.2);
+    }
+    .rule {
+      width: 54px;
+      height: 1px;
+      margin: 23px auto 25px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .letter {
+      margin: 0 auto;
+      max-width: 470px;
+      font-size: clamp(14px, 2.5vw, 17px);
+      line-height: 2.15;
+      letter-spacing: .035em;
+      word-break: keep-all;
+    }
+    .letter p { margin: 0 0 13px; }
+    .reveal {
+      opacity: 0;
+      transform: translateY(-13px);
+      animation: letterDown .9s cubic-bezier(.2,.7,.25,1) forwards;
+    }
+    .reveal:nth-child(1) { animation-delay: .7s; }
+    .reveal:nth-child(2) { animation-delay: 1.45s; }
+    .reveal:nth-child(3) { animation-delay: 2.2s; }
+    .reveal:nth-child(4) { animation-delay: 2.95s; }
+    .reveal:nth-child(5) { animation-delay: 3.7s; }
+    @keyframes letterDown { to { opacity: 1; transform: translateY(0); } }
+    .signoff {
+      margin-top: 25px;
+      color: #f0dcae;
+      font-size: 14px;
+      letter-spacing: .12em;
+    }
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      color: rgba(255,220,211,.75);
+      pointer-events: none;
+      animation: floatUp 8s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(255,220,211,.4));
+    }
+    .heart:nth-of-type(1) { left: 12%; animation-delay: 1s; font-size: 14px; }
+    .heart:nth-of-type(2) { left: 82%; animation-delay: 3.5s; font-size: 19px; }
+    .heart:nth-of-type(3) { left: 66%; animation-delay: 5.5s; font-size: 11px; }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      12% { opacity: .8; }
+      85% { opacity: .55; }
+      100% { transform: translateY(-115vh) rotate(28deg); opacity: 0; }
+    }
+    .music {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 29px;
+      padding: 11px 19px;
+      border: 1px solid rgba(238,216,166,.75);
+      border-radius: 999px;
+      color: #fff8e9;
+      background: rgba(255,255,255,.07);
+      font: 12px/1.2 sans-serif;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: background .25s, transform .25s, border-color .25s;
+    }
+    .music:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); border-color: #f7e7c2; }
+    .music:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+    .music .note { font-size: 16px; }
+    .hint { margin: 10px 0 0; color: rgba(255,248,233,.65); font: 10px/1.5 sans-serif; letter-spacing: .05em; }
+    @media (max-width: 520px) {
+      body { padding: 18px 12px; background-position: 53% center; background-attachment: scroll; }
+      .card { padding: 34px 22px 29px; }
+      .letter { line-height: 2; }
+      .rule { margin: 18px auto 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <span class="heart" aria-hidden="true">♡</span>
+  <span class="heart" aria-hidden="true">♥</span>
+  <span class="heart" aria-hidden="true">♡</span>
+
+  <main class="card">
+    <p class="eyebrow">A little letter for you</p>
+    <h1>너에게 전하는 마음</h1>
+    <div class="rule" aria-hidden="true"></div>
+
+    <section class="letter" aria-label="마음이 담긴 편지">
+      <p class="reveal">작은 발걸음으로 다가와<br>하루를 환하게 밝혀주는 너.</p>
+      <p class="reveal">말없이 곁에 있어 주는 것만으로도<br>마음 한편이 따뜻해지는 순간이 있어.</p>
+      <p class="reveal">언제나 지금처럼 건강하고 행복하게,<br>네가 좋아하는 햇살 아래 마음껏 뛰어놀기를.</p>
+      <p class="reveal">평범한 하루도 특별하게 만들어줘서<br>고맙다는 말을 꼭 전하고 싶었어.</p>
+      <p class="reveal">오늘도 너의 세상이 사랑으로 가득하길.</p>
+    </section>
+
+    <div class="signoff">언제나 너를 아끼는 마음으로 <span aria-hidden="true">♥</span></div>
+    <button class="music" id="musicButton" type="button" aria-pressed="false">
+      <span class="note" aria-hidden="true">♫</span>
+      <span id="musicLabel">잔잔한 음악 켜기</span>
+    </button>
+    <p class="hint">버튼을 누르면 작은 멜로디가 시작됩니다</p>
+  </main>
+
+  <script>
+    // 외부 음원 없이 Web Audio API로 짧고 잔잔한 오리지널 멜로디를 만듭니다.
+    let audioContext = null;
+    let melodyTimer = null;
+    let noteIndex = 0;
+    let masterGain = null;
+
+    const notes = [
+      [392.00, 0.00], [493.88, 0.45], [587.33, 0.90], [493.88, 1.35],
+      [440.00, 1.80], [392.00, 2.25], [329.63, 2.70], [392.00, 3.15],
+      [440.00, 3.60], [493.88, 4.05], [440.00, 4.50], [392.00, 4.95]
+    ];
+
+    function playNote(frequency, startAt) {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = "sine";
+      osc.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, startAt);
+      gain.gain.exponentialRampToValueAtTime(0.075, startAt + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.85);
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start(startAt);
+      osc.stop(startAt + 0.9);
+    }
+
+    function scheduleMelody() {
+      if (!audioContext || audioContext.state !== "running") return;
+      const now = audioContext.currentTime;
+      notes.forEach(([frequency, offset]) => playNote(frequency, now + offset));
+      // 멜로디가 끝나면 자연스럽게 다시 시작합니다.
+      melodyTimer = window.setTimeout(scheduleMelody, 5700);
+    }
+
+    const button = document.getElementById("musicButton");
+    const label = document.getElementById("musicLabel");
+
+    button.addEventListener("click", async () => {
+      if (!audioContext) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          label.textContent = "이 브라우저에서는 음악을 지원하지 않아요";
+          return;
+        }
+        audioContext = new AudioContextClass();
+        masterGain = audioContext.createGain();
+        masterGain.gain.value = 0.48;
+        masterGain.connect(audioContext.destination);
+      }
+
+      if (audioContext.state === "suspended") await audioContext.resume();
+
+      if (button.getAttribute("aria-pressed") === "true") {
+        window.clearTimeout(melodyTimer);
+        await audioContext.suspend();
+        button.setAttribute("aria-pressed", "false");
+        label.textContent = "잔잔한 음악 켜기";
+      } else {
+        button.setAttribute("aria-pressed", "true");
+        label.textContent = "음악 끄기";
+        scheduleMelody();
+      }
+    });
+  </script>
+</body>
+</html>
